@@ -9,7 +9,9 @@ function App(props) {
     return (
         <div className="App container">
             <Navbar collapseOnSelect expand="lg" bg="light" variant="light">
-              <Navbar.Brand href="/">Scratch</Navbar.Brand>
+              <LinkContainer to="/">
+                <Navbar.Brand>Scratch</Navbar.Brand>
+              </LinkContainer>
               <Navbar.Toggle aria-controls="responsive-navbar-nav" />
               <Navbar.Collapse id="responsive-navbar-nav">
                 <Nav className="mr-auto">
