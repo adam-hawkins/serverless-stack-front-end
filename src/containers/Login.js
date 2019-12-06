@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import Bootstrap from 'react-bootstrap';
 import { Auth } from 'aws-amplify';
 import './Login.css';
 
@@ -18,7 +17,7 @@ export default function Login(props) {
 
     try {
         await Auth.signIn(email, password);
-        alert("Logged in");
+        props.userHasAuthenticated(true);
     } catch (e) {
         alert(e.message);
     }
