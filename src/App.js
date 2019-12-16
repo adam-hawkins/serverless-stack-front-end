@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, withRouter } from 'react-router-dom';
 import { Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import Routes from './Routes';
 import { LinkContainer } from 'react-router-bootstrap';
@@ -8,13 +8,35 @@ import './App.css';
 
 
 function App(props) {
+    const [isAuthenticating, setIsAuthenticating] = useState(true);
     const [isAuthenticated, userHasAuthenticated] = useState(false);
 
-    function handleLogout() {
+    useEffect(() => {
+        onLoad();
+    }, []);
+
+    async function onLoad() {
+        try {
+            await Auth.currentSession();
+            userHasAuthenticated(true);
+        }
+        catch(e) {
+            if (e !== 'No current user') {
+                alert(e);
+            }
+        }
+
+        setIsAuthenticating(false);
+    }
+
+    async function handleLogout() {
+        await Auth.signOut();
         userHasAuthenticated(false);
+        props.history.push('/login');
     }
 
     return (
+        !isAuthenticating &&
         <div className='App container'>
             <Navbar collapseOnSelect expand='lg' bg='light' variant='light'>
               <LinkContainer to='/'>
@@ -53,4 +75,4 @@ function App(props) {
     );
 }
 
-export default App;
+export default withRouter(App);
